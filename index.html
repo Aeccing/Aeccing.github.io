@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GAME</title>
+  <link media="all" rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+  <div id="bg">
+    <div class="form__group field">
+      <input type="input" class="form__field" id="expected-time" value="20" required />
+      <label for="name" class="form__label">大致比赛时间（秒）</label>
+    </div>
+    &nbsp;
+    <div class="form__group field">
+      <input type="input" class="form__field" id="deviation" value="1" required />
+      <label for="name" class="form__label">速度浮动标准差（小于 1）：</label>
+    </div>
+
+    &nbsp;
+    <button id="start-trigger">跑！！！</button>
+    &nbsp;
+    <button id="reset">重置</button>
+    &nbsp;
+    <button id="theme">切换主题</button>
+    <hr />
+
+    <div id="playground">
+    </div>
+  </div>
+  <script src="https://cdn.staticfile.org/jquery/1.10.0/jquery.min.js"></script>
+  <script type="application/javascript" src="./index.js"></script>
+</body>
+
+</html>
