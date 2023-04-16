@@ -7,15 +7,15 @@
   --border-color2: #38ef7d;
   --color: #11998e;
 }
-.light{
-  --theme-background: #FFFFFF;
-  --theme-color1: #FFFFFF;
+.light {
+  --theme-background: #ffffff;
+  --theme-color1: #ffffff;
   /* --theme-color2: #ffd9e6; */
   --theme-color2: #e6cfe6;
   --font-color: #9b9b9b;
-  --border-color: #FF99CC;
+  --border-color: #ff99cc;
   --border-color2: hotpink;
-  --color: #FF99CC;
+  --color: #ff99cc;
 }
 
 body {
@@ -27,6 +27,19 @@ body {
   color: #9b9b9b;
   padding: 10px;
   font-family: "Helvetica Neue";
+}
+
+#bgm {
+  position: fixed;
+  right: 18px;
+  top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 999;
+  padding: 10px 0 0 0;
+  border: 0;
+  background-color: transparent;
 }
 
 #playground {
@@ -173,7 +186,11 @@ body {
   font-weight: 700;
   border-width: 3px;
   color: var(--border-color);
-  border-image: linear-gradient(to right, var(--border-color), var(--border-color2));
+  border-image: linear-gradient(
+    to right,
+    var(--border-color),
+    var(--border-color2)
+  );
   border-image-slice: 1;
 }
 
@@ -188,7 +205,8 @@ body {
 }
 
 /* reset input */
-.form__field:required, .form__field:invalid {
+.form__field:required,
+.form__field:invalid {
   box-shadow: none;
 }
 

@@ -135,6 +135,17 @@ function getDancingMan() {
   }
 }
 
+function initMusic() {
+  let audio = $(`<audio controls="controls" style="display: none;"></audio>`);
+  $("#bg").append(audio);
+  let transient = new Audio("media/j.mp3");
+  let dancing = new Audio("media/jntm.mp3");
+  return {
+    transient,
+    dancing,
+  };
+}
+
 function initAthletes() {
   let $tracks = [];
   Object.keys(ATHLETES).forEach((group) => {
@@ -154,17 +165,42 @@ function initAthletes() {
 
 (function bootStrap() {
   let $tracks = initAthletes();
-
-  $("#theme").on("click", () => {
-    $("#bg").toggleClass("light");
+  let $audio = initMusic();
+  $("#bgm").on("click", () => {
+    if ($(".bgm-close").attr("display") === "none") {
+      $audio.transient.pause();
+      $audio.dancing.pause();
+      $(".bgm-open").attr("display", "none");
+      $(".bgm-close").attr("display", "block");
+    } else {
+      // $audio.transient.play();
+      // $audio.dancing.play();
+      $(".bgm-open").attr("display", "block");
+      $(".bgm-close").attr("display", "none");
+    }
+  });
+  $("#kun").on("click", () => {
+    $("#bg").addClass("light");
     let dancingMan = getDancingMan();
     $(".dancing").attr("src", dancingMan);
+    $audio?.transient?.play();
+    $("#kun").remove();
+    $(".track").remove();
+    $tracks = initAthletes();
   });
   $("#reset").on("click", () => {
     $(".track").remove();
     $tracks = initAthletes();
+    $audio.dancing?.pause();
   });
   $("#start-trigger").on("click", () => {
     startTick($tracks);
+    if (
+      $("#bg").hasClass("light") &&
+      $(".bgm-close").attr("display") === "none"
+    ) {
+      $audio.dancing?.load();
+      $audio.dancing?.play();
+    }
   });
 })();
