@@ -5,9 +5,8 @@
   font-stretch: 75% 100%;
   font-style: oblique 0deg 20deg;
   font-weight: 1 999;
-  src: url(../../media/fonts/Inter.var.woff2)
-      format("woff2 supports variations"),
-    url(../../media/fonts/Inter.var.woff2) format("woff2-variations");
+  src: url(Inter.var.woff2) format("woff2 supports variations"),
+    url(Inter.var.woff2) format("woff2-variations");
 }
 
 :root {
@@ -613,7 +612,8 @@ body {
 
 .editor {
   margin-bottom: 0.5rem;
-  min-height: 320px;
+  /* min-height: 320px; */
+  height: calc(100vh - 200px);
   border: 1px solid var(--border-primary);
 }
 
