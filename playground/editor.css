@@ -454,7 +454,6 @@ body {
   color: var(--text-primary);
   font: var(--type-body-l);
   height: 100%;
-  margin: 0;
   padding: 0;
 }
 
@@ -612,8 +611,7 @@ body {
 
 .editor {
   margin-bottom: 0.5rem;
-  /* min-height: 320px; */
-  height: calc(100vh - 200px);
+  height: calc(100vh - 180px);
   border: 1px solid var(--border-primary);
 }
 

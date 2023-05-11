@@ -5,6 +5,8 @@
   const editor = monaco.editor.create(document.getElementById("editor"), {
     value: localStorage.getItem("script-history"),
     language: "typescript",
+    automaticLayout: true,
+    scrollBeyondLastLine: false,
   });
   function print(logStr) {
     const oldStr = output.textContent;
