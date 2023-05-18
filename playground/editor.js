@@ -174,8 +174,8 @@
         try {
           new Function(jsLang)();
         } catch (error) {
+          console.error(error);
           print(error);
-          // console.info(error.toString());
         }
       });
       reset.addEventListener("click", () => ctx.location.reload());
