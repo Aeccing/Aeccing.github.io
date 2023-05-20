@@ -39,64 +39,6 @@
   }
   const storage = new Storage();
 
-  function createEditor() {
-    htmlEditor = monaco.editor.create(htmlEditorEl, {
-      value: storage.get("htmlContent"),
-      language: "html",
-      automaticLayout: true,
-      scrollBeyondLastLine: false,
-      contextmenu: false,
-    });
-    htmlEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () =>
-      htmlEditor.trigger("a", "editor.action.formatDocument")
-    );
-    htmlEditor.onDidChangeModelContent(() =>
-      storage.set("htmlContent", htmlEditor.getValue())
-    );
-    cssEditor = monaco.editor.create(cssEditorEl, {
-      value: storage.get("cssContent"),
-      language: "css",
-      automaticLayout: true,
-      scrollBeyondLastLine: false,
-      contextmenu: false,
-    });
-    cssEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () =>
-      cssEditor.trigger("a", "editor.action.formatDocument")
-    );
-    cssEditor.onDidChangeModelContent(() =>
-      storage.set("cssContent", cssEditor.getValue())
-    );
-    jsEditor = monaco.editor.create(jsEditorEl, {
-      value: storage.get("jsContent"),
-      language: "javascript",
-      automaticLayout: true,
-      scrollBeyondLastLine: false,
-      contextmenu: false,
-    });
-    jsEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () =>
-      jsEditor.trigger("a", "editor.action.formatDocument")
-    );
-    jsEditor.onDidChangeModelContent(() =>
-      storage.set("jsContent", jsEditor.getValue())
-    );
-  }
-
-  function writeIframe() {
-    const contentMap = {
-      htmlContent: htmlEditor.getValue(),
-      cssContent: cssEditor.getValue(),
-      jsContent: jsEditor.getValue(),
-    };
-    const srcdoc = iframeContent
-      .replace("/* %css-content% */", contentMap.cssContent)
-      ?.replace("<!-- %html-content% -->", contentMap.htmlContent)
-      .replace("/* %js-content% */", contentMap.jsContent);
-    outputIframe.srcdoc = srcdoc;
-  }
-  function debounceWriteIframe() {
-    clearTimeout(timer);
-    timer = setTimeout(() => writeIframe(), 500);
-  }
   function g(e, t) {
     t && (t.setAttribute("aria-selected", !1), t.setAttribute("tabindex", -1)),
       e.setAttribute("aria-selected", !0),
@@ -154,6 +96,62 @@
       }
     });
   }
+  function writeIframe() {
+    const contentMap = {
+      htmlContent: htmlEditor.getValue(),
+      cssContent: cssEditor.getValue(),
+      jsContent: jsEditor.getValue(),
+    };
+    storage.set("cssContent", contentMap.cssContent);
+    storage.set("htmlContent", contentMap.htmlContent);
+    storage.set("jsContent", contentMap.jsContent);
+    const srcdoc = iframeContent
+      .replace("/* %css-content% */", contentMap.cssContent)
+      ?.replace("<!-- %html-content% -->", contentMap.htmlContent)
+      .replace("/* %js-content% */", contentMap.jsContent);
+    outputIframe.srcdoc = srcdoc;
+  }
+  function debounceWriteIframe() {
+    clearTimeout(timer);
+    timer = setTimeout(() => writeIframe(), 500);
+  }
+  function createEditor() {
+    htmlEditor = monaco.editor.create(htmlEditorEl, {
+      value: storage.get("htmlContent"),
+      language: "html",
+      automaticLayout: true,
+      scrollBeyondLastLine: false,
+      contextmenu: false,
+    });
+    cssEditor = monaco.editor.create(cssEditorEl, {
+      value: storage.get("cssContent"),
+      language: "css",
+      automaticLayout: true,
+      scrollBeyondLastLine: false,
+      contextmenu: false,
+    });
+    jsEditor = monaco.editor.create(jsEditorEl, {
+      value: storage.get("jsContent"),
+      language: "javascript",
+      automaticLayout: true,
+      scrollBeyondLastLine: false,
+      contextmenu: false,
+    });
+    jsEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+      htmlEditor.trigger("a", "editor.action.formatDocument");
+      cssEditor.trigger("a", "editor.action.formatDocument");
+      jsEditor.trigger("a", "editor.action.formatDocument");
+    });
+    htmlEditor.onDidChangeModelContent(() => {
+      debounceWriteIframe();
+    });
+    cssEditor.onDidChangeModelContent(() => {
+      debounceWriteIframe();
+    });
+    jsEditor.onDidChangeModelContent(() => {
+      debounceWriteIframe();
+    });
+  }
 
   outputIframe.addEventListener("load", () => {
     const contentWindow = outputIframe.contentWindow,
@@ -163,17 +161,10 @@
   outputhHeader.addEventListener("click", (e) => {
     e.target.classList.contains("reset") && window.location.reload();
   });
-  cssEditorEl.addEventListener("keyup", () => debounceWriteIframe());
-  htmlEditorEl.addEventListener("keyup", () => debounceWriteIframe());
-  jsEditorEl.addEventListener("keyup", () => debounceWriteIframe());
   clear.addEventListener("click", () => {
     document.querySelector("#console code").textContent = "";
   });
-  // cssEditorPreEl.classList.add("hidden");
-  // htmlEditorPreEl.classList.add("hidden");
-  // jsEditorPreEl.classList.add("hidden");
   editorContainer.classList.remove("hidden");
-
   const showTabs = (function (e) {
     return e.dataset && e.dataset.tabs
       ? e.dataset.tabs.split(",")
