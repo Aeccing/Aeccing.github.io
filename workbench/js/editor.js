@@ -106,9 +106,9 @@
     storage.set("htmlContent", contentMap.htmlContent);
     storage.set("jsContent", contentMap.jsContent);
     const srcdoc = iframeContent
-      .replace("/* %css-content% */", contentMap.cssContent)
-      ?.replace("<!-- %html-content% -->", contentMap.htmlContent)
-      .replace("/* %js-content% */", contentMap.jsContent);
+      .replace("/* css-content */", contentMap.cssContent)
+      ?.replace("<!-- html-content -->", contentMap.htmlContent)
+      .replace("/* js-content */", contentMap.jsContent);
     outputIframe.srcdoc = srcdoc;
   }
   function debounceWriteIframe() {

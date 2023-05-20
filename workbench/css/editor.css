@@ -605,7 +605,7 @@ body {
   }
 }
 
-@font-face {
+/* @font-face {
   font-family: Fira Sans;
   src: local("FiraSans-Regular"),
     url(/media/fonts/FiraSans-Regular.woff2) format("woff2");
@@ -632,7 +632,7 @@ body {
 @font-face {
   font-family: rapscallion;
   src: url(/media/fonts/rapscall.woff2) format("woff2");
-}
+} */
 
 .tab-list {
   background: var(--background-secondary);
