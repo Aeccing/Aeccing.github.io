@@ -116,41 +116,28 @@
     timer = setTimeout(() => writeIframe(), 500);
   }
   function createEditor() {
-    htmlEditor = monaco.editor.create(htmlEditorEl, {
-      value: storage.get("htmlContent"),
-      language: "html",
-      automaticLayout: true,
-      scrollBeyondLastLine: false,
-      contextmenu: false,
-    });
-    cssEditor = monaco.editor.create(cssEditorEl, {
-      value: storage.get("cssContent"),
-      language: "css",
-      automaticLayout: true,
-      scrollBeyondLastLine: false,
-      contextmenu: false,
-    });
-    jsEditor = monaco.editor.create(jsEditorEl, {
-      value: storage.get("jsContent"),
-      language: "javascript",
-      automaticLayout: true,
-      scrollBeyondLastLine: false,
-      contextmenu: false,
+    [htmlEditor, cssEditor, jsEditor] = [
+      { language: "html", el: htmlEditorEl, content: "htmlContent" },
+      { language: "css", el: cssEditorEl, content: "cssContent" },
+      { language: "javascript", el: jsEditorEl, content: "jsContent" },
+    ].map(({ language, el, content }) => {
+      return monaco.editor.create(el, {
+        value: storage.get(content),
+        language: language,
+        automaticLayout: true,
+        scrollBeyondLastLine: false,
+        contextmenu: false,
+        minimap: { enabled: false },
+      });
     });
     jsEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
       htmlEditor.trigger("a", "editor.action.formatDocument");
       cssEditor.trigger("a", "editor.action.formatDocument");
       jsEditor.trigger("a", "editor.action.formatDocument");
     });
-    htmlEditor.onDidChangeModelContent(() => {
-      debounceWriteIframe();
-    });
-    cssEditor.onDidChangeModelContent(() => {
-      debounceWriteIframe();
-    });
-    jsEditor.onDidChangeModelContent(() => {
-      debounceWriteIframe();
-    });
+    htmlEditor.onDidChangeModelContent(debounceWriteIframe);
+    cssEditor.onDidChangeModelContent(debounceWriteIframe);
+    jsEditor.onDidChangeModelContent(debounceWriteIframe);
   }
 
   outputIframe.addEventListener("load", () => {
