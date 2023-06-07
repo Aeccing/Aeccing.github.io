@@ -633,11 +633,35 @@ body {
   font-family: rapscallion;
   src: url(/media/fonts/rapscall.woff2) format("woff2");
 } */
+.tab-header {
+  background: var(--background-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 14px;
+}
 
 .tab-list {
   background: var(--background-secondary);
   display: flex;
   gap: 0.5rem;
+}
+
+button[role="button"] {
+  background-color: var(--button-secondary-default);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--elem-radius);
+  color: var(--text-primary);
+  cursor: pointer;
+  display: block;
+  font: var(--type-emphasis-m);
+  padding: 0.5em;
+  width: 100px;
+  height: 32px;
+}
+
+button[role="button"]:hover {
+  background-color: var(--button-secondary-hover);
 }
 
 button[role="tab"] {

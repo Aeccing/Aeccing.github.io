@@ -16,6 +16,7 @@
   const tabButton = tabContainer.querySelectorAll('button[role="tab"]');
   const tablist = document.getElementById("tablist");
   const iframeContent = `\n<!DOCTYPE html>\n<html id="output-root">\n<head>${outputHead.innerHTML}</head>\n<body>${outputBody.innerHTML}</body>\n</html>\n`;
+  const run = document.getElementById("run");
   let timer;
   class Storage {
     constructor(options) {
@@ -109,11 +110,19 @@
       .replace("/* css-content */", contentMap.cssContent)
       ?.replace("<!-- html-content -->", contentMap.htmlContent)
       .replace("/* js-content */", contentMap.jsContent);
-    outputIframe.srcdoc = srcdoc;
+    const ifrw = outputIframe.contentWindow
+      ? outputIframe.contentWindow
+      : outputIframe.contentDocument.document
+      ? outputIframe.contentDocument.document
+      : outputIframe.contentDocument;
+    ifrw.document.open();
+    ifrw.document.write(srcdoc);
+    ifrw.document.close();
+    // outputIframe.srcdoc = srcdoc;
   }
   function debounceWriteIframe() {
     clearTimeout(timer);
-    timer = setTimeout(() => writeIframe(), 500);
+    timer = setTimeout(() => writeIframe(), 200);
   }
   function createEditor() {
     [htmlEditor, cssEditor, jsEditor] = [
@@ -135,11 +144,9 @@
       cssEditor.trigger("a", "editor.action.formatDocument");
       jsEditor.trigger("a", "editor.action.formatDocument");
     });
-    htmlEditor.onDidChangeModelContent(debounceWriteIframe);
-    cssEditor.onDidChangeModelContent(debounceWriteIframe);
-    jsEditor.onDidChangeModelContent(debounceWriteIframe);
   }
 
+  run.addEventListener("click", writeIframe);
   outputIframe.addEventListener("load", () => {
     const contentWindow = outputIframe.contentWindow,
       body = contentWindow.document.body;

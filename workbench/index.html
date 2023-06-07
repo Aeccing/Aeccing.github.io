@@ -27,15 +27,20 @@
   <div id="editor-container" class="editor-container tabbed-standard hidden border-rounded-bottom"
     data-editor-type="tabbed" data-tabs="html,css,js" data-default-tab="html">
     <section id="tab-container" class="tabs">
-      <div class="tab-list" id="tablist" role="tablist">
-        <button role="tab" aria-selected="false" aria-controls="html-panel" id="html" class="hidden">
-          HTML
-        </button>
-        <button role="tab" aria-selected="false" aria-controls="css-panel" id="css" class="hidden" tabindex="-1">
-          CSS
-        </button>
-        <button role="tab" aria-selected="false" aria-controls="js-panel" id="js" class="hidden" tabindex="-1">
-          JavaScript
+      <div class="tab-header">
+        <div class="tab-list" id="tablist" role="tablist">
+          <button role="tab" aria-selected="false" aria-controls="html-panel" id="html" class="hidden">
+            HTML
+          </button>
+          <button role="tab" aria-selected="false" aria-controls="css-panel" id="css" class="hidden" tabindex="-1">
+            CSS
+          </button>
+          <button role="tab" aria-selected="false" aria-controls="js-panel" id="js" class="hidden" tabindex="-1">
+            JavaScript
+          </button>
+        </div>
+        <button id="run" role="button" type="button">
+          Run ❯
         </button>
       </div>
       <section id="html-panel" tabindex="0" role="tabpanel" aria-labelledby="html" class="hidden" aria-hidden="true">
