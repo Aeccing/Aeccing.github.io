@@ -15,7 +15,7 @@
   const tabContainer = document.getElementById("tab-container");
   const tabButton = tabContainer.querySelectorAll('button[role="tab"]');
   const tablist = document.getElementById("tablist");
-  const iframeContent = `\n<!DOCTYPE html>\n<html id="output-root">\n<head>${outputHead.innerHTML}</head>\n<body>${outputBody.innerHTML}</body>\n</html>\n`;
+  const iframeContent = `\n<!DOCTYPE html>\n<html id="output-root">\n<head>${outputHead.innerHTML}</head>\n<body style="background-color: var(--background-primary);">${outputBody.innerHTML}</body>\n</html>\n`;
   const run = document.getElementById("run");
   let timer;
   class Storage {
@@ -125,6 +125,9 @@
     timer = setTimeout(() => writeIframe(), 200);
   }
   function createEditor() {
+    const theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "vs-dark"
+      : "vs";
     [htmlEditor, cssEditor, jsEditor] = [
       { language: "html", el: htmlEditorEl, content: "htmlContent" },
       { language: "css", el: cssEditorEl, content: "cssContent" },
@@ -137,6 +140,7 @@
         scrollBeyondLastLine: false,
         contextmenu: false,
         minimap: { enabled: false },
+        theme: theme,
       });
     });
     jsEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {

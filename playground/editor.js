@@ -61,12 +61,16 @@
       const execute = document.getElementById("execute");
       const output = document.querySelector("#console code");
       const reset = document.getElementById("reset");
+      const theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "vs-dark"
+        : "vs";
       editor = monaco.editor.create(document.getElementById("editor"), {
         value: storage.get(CODE_KEY),
         language: "typescript",
         automaticLayout: true,
         scrollBeyondLastLine: false,
         contextmenu: false,
+        theme: theme,
       });
       function print(logStr) {
         const oldStr = output.textContent;
